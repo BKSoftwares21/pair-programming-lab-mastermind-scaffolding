@@ -71,7 +71,7 @@ function checkGuess(guess, solution) {
     }
   }
   //to check the correct position of the players guess
-  for
+
 
   //To check the number that is not in the correct position in the players guees
   for (let character in guessCharacterNumber) {

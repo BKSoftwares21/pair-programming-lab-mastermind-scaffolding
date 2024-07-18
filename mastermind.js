@@ -32,7 +32,54 @@ function checkGuess(guess, solution) {
   // characters not in the right place"
   // for example, "2-1"
   //
+  let solutionCharacterNumber = {};
+  let guessCharacterNumber = {};
+  let correctPosition = 0;
+  let commonCharacters = 0;
+
+  //To count the characters that the mastermind entered
+  for (let character of solution) {
+    if (solutionCharacterNumber[character] === undefined) {
+      solutionCharacterNumber[character] = 1;
+    } else {
+      solutionCharacterNumber[character]++;
+    }
+  }
+
+  // To count the characters that the player guessed
+  for (let character of guess) {
+    if (guessCharacterNumber[character] === undefined) {
+      guessCharacterNumber[character] = 1;
+    } else {
+      guessCharacterNumber[character]++;
+    }
+  }
+
+  //To check the correct position of the players guess
+  for (let i = 0; i < guess.length; i++) {
+    if (guess[i] === solution[i]) {
+      correctPosition++;
+      // Decrease the count for both guess and solution
+      solutionCharacterNumber[guess[i]]--;
+      guessCharacterNumber[guess[i]]--;
+      if (solutionCharacterNumber[guess[i]] === 0) {
+        delete solutionCharacterNumber[guess[i]];
+      }
+      if (guessCharacterNumber[guess[i]] === 0) {
+        delete guessCharacterNumber[guess[i]];
+      }
+    }
+  }
+
+  //To check the number that is not in the correct position in the players guees
+  for (let character in guessCharacterNumber) {
+    if (solutionCharacterNumber[character]) {
+      commonCharacters += Math.min(solutionCharacterNumber[character], guessCharacterNumber[character]);
+    }
+  }
+  return `${correctPosition}-${commonCharacters}`;
 }
+console.log(checkGuess('6158', '9628')); // Output should be "1-1"
 
 // https://jsdoc.app
 /**
@@ -52,6 +99,7 @@ function checkGuess(guess, solution) {
  * processInput('1234', ['1532', '8793'])
  *
  */
+
 function processInput(solution, guesses) {
   return guesses.map((guess) => checkGuess(guess, solution));
 }
@@ -59,12 +107,12 @@ function processInput(solution, guesses) {
 // ----------- main program ------- //
 // process arguments via destructuring
 //
-const [solution, guessCount, ...guesses] = process.argv.slice(2);
+const [solution, tries, ...guesses] = process.argv.slice(2);
 
 // (lightly) verify the input
-if (guesses.length !== Number(guessCount)) {
+if (guesses.length !== Number(tries)) {
   console.warn(
-    `The number of guesses provided (${guesses.length}) does not match the guess count (${guessCount}).`
+    `The number of guesses provided (${guesses.length}) does not match the guess count (${tries}).`
   );
   console.warn("Exiting.");
   process.exit(-1);
@@ -73,3 +121,5 @@ if (guesses.length !== Number(guessCount)) {
 // pass the input to the processor and print the output
 const output = processInput(solution, guesses);
 console.log(output.join(" "));
+
+

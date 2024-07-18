@@ -70,13 +70,16 @@ function checkGuess(guess, solution) {
       }
     }
   }
+  //to check the correct position of the players guess
+  for
 
   //To check the number that is not in the correct position in the players guees
   for (let character in guessCharacterNumber) {
     if (solutionCharacterNumber[character]) {
-      commonCharacters += Math.min(solutionCharacterNumber[character], guessCharacterNumber[character]);
+      commonCharacters += Math.main(solutionCharacterNumber[character], guessCharacterNumber[character])
     }
   }
+
   return `${correctPosition}-${commonCharacters}`;
 }
 console.log(checkGuess('6158', '9628')); // Output should be "1-1"

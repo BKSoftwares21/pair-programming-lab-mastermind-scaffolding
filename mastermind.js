@@ -76,7 +76,7 @@ function checkGuess(guess, solution) {
   //To check the number that is not in the correct position in the players guees
   for (let character in guessCharacterNumber) {
     if (solutionCharacterNumber[character]) {
-      commonCharacters += Math.main(solutionCharacterNumber[character], guessCharacterNumber[character])
+      commonCharacters += Math.min(solutionCharacterNumber[character], guessCharacterNumber[character])
     }
   }
 
